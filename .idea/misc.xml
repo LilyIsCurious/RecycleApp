@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/lenovo/AndroidStudioProjects/MyRecycle/app/src/main/res/drawable/cursor_style.xml" value="0.1953125" />
+        <entry key="..\:/Users/lenovo/AndroidStudioProjects/MyRecycle/app/src/main/res/drawable/search_et_bg.xml" value="0.1953125" />
+        <entry key="..\:/Users/lenovo/AndroidStudioProjects/MyRecycle/app/src/main/res/layout/activity_image_input.xml" value="0.1764102564102564" />
+        <entry key="..\:/Users/lenovo/AndroidStudioProjects/MyRecycle/app/src/main/res/layout/activity_main.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/lenovo/AndroidStudioProjects/MyRecycle/app/src/main/res/layout/activity_news_details.xml" value="0.1764102564102564" />
+        <entry key="..\:/Users/lenovo/AndroidStudioProjects/MyRecycle/app/src/main/res/layout/activity_text_input.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/lenovo/AndroidStudioProjects/MyRecycle/app/src/main/res/layout/activity_voice_input.xml" value="0.1764102564102564" />
+        <entry key="..\:/Users/lenovo/AndroidStudioProjects/MyRecycle/app/src/main/res/layout/item_distinguish_result_rv.xml" value="0.1764102564102564" />
+        <entry key="..\:/Users/lenovo/AndroidStudioProjects/MyRecycle/app/src/main/res/layout/item_search_rv.xml" value="0.22" />
+        <entry key="..\:/Users/lenovo/AndroidStudioProjects/MyRecycle/app/src/main/res/layout/item_trash_new_rv.xml" value="0.1764102564102564" />
+        <entry key="..\:/Users/lenovo/AndroidStudioProjects/MyRecycle/app/src/main/res/xml/file_paths.xml" value="0.17916666666666667" />
+        <entry key="..\:/Users/lenovo/AndroidStudioProjects/MyRecycle/app/src/main/res/xml/litepal.xml" value="0.1764102564102564" />
+        <entry key="..\:/Users/lenovo/AndroidStudioProjects/MyRecycle/app/src/main/res/xml/network_config.xml" value="0.17916666666666667" />
+        <entry key="..\:/Users/lenovo/AndroidStudioProjects/MyRecycle/mvplibrary/src/main/res/xml/environment_preference.xml" value="0.1764102564102564" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
