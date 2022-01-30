@@ -13,6 +13,7 @@ import java.util.List;
 
 /**
  * 搜索物品结果列表适配器
+ * Search item result list adapter
  */
 public class SearchGoodsAdapter extends BaseQuickAdapter<TrashResponse.NewslistBean, BaseViewHolder> {
 
@@ -38,7 +39,7 @@ public class SearchGoodsAdapter extends BaseQuickAdapter<TrashResponse.NewslistB
                 tvType.setText("厨余垃圾");
                 break;
             case 3:
-                //干垃圾即其他垃圾
+                //干垃圾即其他垃圾  dry garbage and others
                 tvType.setText("干垃圾");
                 break;
             default:
@@ -46,4 +47,6 @@ public class SearchGoodsAdapter extends BaseQuickAdapter<TrashResponse.NewslistB
         }
     }
 }
+
+
 
