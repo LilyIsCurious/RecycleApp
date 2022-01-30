@@ -11,12 +11,14 @@ import com.llw.mvplibrary.network.observer.BaseObserver;
 
 /**
  * 语音文字输入页面访问网络
+ * voice recording page access network
  */
 public class VoiceContract {
 
     public static class VoicePresenter extends BasePresenter<VoiceView> {
         /**
          * 搜索物品
+         * search object
          *
          * @param word 物品名
          */
