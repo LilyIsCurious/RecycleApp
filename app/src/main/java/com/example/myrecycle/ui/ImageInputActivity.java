@@ -47,20 +47,24 @@ import io.reactivex.annotations.Nullable;
 
 /**
  * 图像输入物品进行垃圾分类
+ * Image input items for garbage classification
  */
 public class ImageInputActivity extends MvpActivity<ImageContract.ImagePresenter> implements ImageContract.ImageView, View.OnClickListener {
 
     private static final String TAG = "ImageInputActivity";
     /**
      * 打开相册
+     * open album
      */
     private static final int OPEN_ALBUM_CODE = 100;
     /**
      * 打开相机
+     * open camera
      */
     private static final int TAKE_PHOTO_CODE = 101;
     /**
      * 鉴权Toeken
+     * Authentication token
      */
     private String accessToken;
 
@@ -76,6 +80,7 @@ public class ImageInputActivity extends MvpActivity<ImageContract.ImagePresenter
 
     /**
      * 初始化
+     * initialize
      */
     private void initView() {
         toolbar = findViewById(R.id.toolbar);
@@ -97,11 +102,12 @@ public class ImageInputActivity extends MvpActivity<ImageContract.ImagePresenter
 
     /**
      * 滑动到屏幕底部
+     * scroll to the end
      */
     private void scrollToEnd() {
         nestedScrollingView.post(() -> {
-            nestedScrollingView.fullScroll(View.FOCUS_DOWN);//滚到底部
-            //nestedScrollView.fullScroll(ScrollView.FOCUS_UP);//滚到顶部
+            nestedScrollingView.fullScroll(View.FOCUS_DOWN);//滚到底部 scroll to the end
+            //nestedScrollView.fullScroll(ScrollView.FOCUS_UP);//滚到顶部 scroll to the top
         });
     }
 
@@ -110,14 +116,14 @@ public class ImageInputActivity extends MvpActivity<ImageContract.ImagePresenter
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_web_picture://网络图片
+            case R.id.btn_web_picture://网络图片 image from the internet
                 etImageUrl.setVisibility(View.VISIBLE);
                 etImageUrl.setOnKeyListener((view, keyCode, keyEvent) -> {
                     if (keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_UP) {
                         String webImageUrl = etImageUrl.getText().toString().trim();
                         String defaultWebImageUrl = "https://bce-baiyu.cdn.bcebos.com/14ce36d3d539b6004ef2e45fe050352ac65cb71e.jpeg";
                         String imageUrl = "".equals(webImageUrl) ?defaultWebImageUrl : webImageUrl;
-                        //识别网络图片Url
+                        //识别网络图片Url recognize url
                         showLoadingDialog();
                         Glide.with(context).load(imageUrl).into(ivPicture);
                         mPresenter.getDiscernResult(accessToken,null,imageUrl);
@@ -127,14 +133,14 @@ public class ImageInputActivity extends MvpActivity<ImageContract.ImagePresenter
                 });
                 break;
 
-            case R.id.btn_open_album://相册图片
+            case R.id.btn_open_album://image from album
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     rxPermissions.request(
                             Manifest.permission.READ_EXTERNAL_STORAGE,
                             Manifest.permission.WRITE_EXTERNAL_STORAGE)
                             .subscribe(grant -> {
                                 if (grant) {
-                                    //获得权限
+                                    //获得权限 get permission
                                     openAlbum();
                                 } else {
                                     showMsg("未获取到权限");
@@ -145,13 +151,13 @@ public class ImageInputActivity extends MvpActivity<ImageContract.ImagePresenter
                 }
                 break;
 
-            case R.id.btn_take_photo://拍照图片
+            case R.id.btn_take_photo://拍照图片 take picture
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     rxPermissions.request(
                             Manifest.permission.CAMERA)
                             .subscribe(grant -> {
                                 if (grant) {
-                                    //获得权限
+                                    //获得权限 get permission
                                     turnOnCamera();
                                 } else {
                                     showMsg("未获取到权限");
@@ -169,11 +175,12 @@ public class ImageInputActivity extends MvpActivity<ImageContract.ImagePresenter
 
     /**
      * 打开相机
+     * open camera
      */
     private void turnOnCamera() {
         SimpleDateFormat timeStampFormat = new SimpleDateFormat("HH_mm_ss");
         String filename = timeStampFormat.format(new Date());
-        //创建File对象
+        //创建File对象 create file object
         outputImage = new File(getExternalCacheDir(), "takePhoto" + filename + ".jpg");
         Uri imageUri;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -182,7 +189,7 @@ public class ImageInputActivity extends MvpActivity<ImageContract.ImagePresenter
         } else {
             imageUri = Uri.fromFile(outputImage);
         }
-        //打开相机
+        //打开相机 open camera
         Intent intent = new Intent();
         intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
@@ -192,6 +199,7 @@ public class ImageInputActivity extends MvpActivity<ImageContract.ImagePresenter
 
     /**
      * 打开相册
+     * open album
      */
     private void openAlbum() {
         Intent intent = new Intent();
@@ -289,11 +297,11 @@ public class ImageInputActivity extends MvpActivity<ImageContract.ImagePresenter
      */
     @Override
     public void getSearchResponse(TrashResponse response) {
-        //请求成功  进行数据的渲染
+        //请求成功  进行数据的渲染 Request to render data successfully
         if (response.getCode() == Constant.SUCCESS_CODE) {
             List<TrashResponse.NewslistBean> result = response.getNewslist();
             if (result != null && result.size() > 0) {
-                //显示分类结果
+                //显示分类结果 display classification result
                 showClassificationResult(result);
             } else {
                 showMsg("触及到了知识盲区");
@@ -332,12 +340,12 @@ public class ImageInputActivity extends MvpActivity<ImageContract.ImagePresenter
     private String getAccessToken() {
         String token = SPUtils.getString(Constant.TOKEN, null, this);
         if (token == null) {
-            //访问API获取接口
+            //访问API获取接口 Access API to get interface
             mPresenter.getToken();
         } else {
-            //则判断Token是否过期
+            //则判断Token是否过期 Then judge whether the token has expired
             if (isTokenExpired()) {
-                //过期
+                //过期 expired
                 mPresenter.getToken();
             } else {
                 accessToken = token;
@@ -369,18 +377,18 @@ public class ImageInputActivity extends MvpActivity<ImageContract.ImagePresenter
      */
     private void showDiscernResult(List<GetDiscernResultResponse.ResultBean> result) {
         DiscernResultAdapter adapter = new DiscernResultAdapter(R.layout.item_distinguish_result_rv, result);
-        //添加列表Item点击
+        //添加列表Item点击 Add list item Click
         adapter.setOnItemChildClickListener((adapter1, view, position) -> {
             showLoadingDialog();
-            //垃圾分类
+            //垃圾分类 garbage sorting
             mPresenter.searchGoods(result.get(position).getKeyword());
         });
 
         rvRecognitionResult.setLayoutManager(new LinearLayoutManager(this));
         rvRecognitionResult.setAdapter(adapter);
-        //隐藏加载
+        //隐藏加载 Hide loading
         hideLoadingDialog();
-        //显示弹窗
+        //显示弹窗 Display pop-up window
         layRecognitionResult.setVisibility(View.VISIBLE);
         layClassificationResult.setVisibility(View.GONE);
         //滑动到屏幕底部
@@ -393,22 +401,22 @@ public class ImageInputActivity extends MvpActivity<ImageContract.ImagePresenter
         if (resultCode == RESULT_OK) {
             showLoadingDialog();
             if (requestCode == OPEN_ALBUM_CODE) {
-                //打开相册返回
+                //打开相册返回 open album return
                 String[] filePathColumns = {MediaStore.Images.Media.DATA};
                 final Uri imageUri = Objects.requireNonNull(data).getData();
                 Cursor cursor = getContentResolver().query(imageUri, filePathColumns, null, null, null);
                 cursor.moveToFirst();
                 int columnIndex = cursor.getColumnIndex(filePathColumns[0]);
-                //获取图片路径
+                //获取图片路径 Get picture path
                 String imagePath = cursor.getString(columnIndex);
                 cursor.close();
-                //识别
+                //识别 recognize
                 localImageDiscern(imagePath);
             }
         } 	else if (requestCode == TAKE_PHOTO_CODE) {
-            //拍照返回
+            //拍照返回picture return
             String imagePath = outputImage.getAbsolutePath();
-            //识别
+            //识别 recognize
             localImageDiscern(imagePath);
         }
 
@@ -419,17 +427,18 @@ public class ImageInputActivity extends MvpActivity<ImageContract.ImagePresenter
 
     /**
      * 本地图片识别
+     * Local image recognition
      */
     private void localImageDiscern(String imagePath) {
         try {
             String token = getAccessToken();
-            //通过图片路径显示图片
+            //通过图片路径显示图片 Display pictures through picture path
             Glide.with(this).load(imagePath).into(ivPicture);
-            //按字节读取文件
+            //按字节读取文件 Read file by byte
             byte[] imgData = FileUtil.readFileByBytes(imagePath);
-            //字节转Base64
+            //字节转Base64 Byte to Base64
             String imageBase64 = Base64Util.encode(imgData);
-            //本地图片识别
+            //本地图片识别 Local image recognition
             mPresenter.getDiscernResult(token, imageBase64, null);
         } catch (IOException e) {
             e.printStackTrace();
