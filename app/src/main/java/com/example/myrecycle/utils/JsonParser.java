@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 /**
  * Json结果解析类
+ * JSON result parsing class
  */
 public class JsonParser {
 
@@ -16,11 +17,11 @@ public class JsonParser {
 
             JSONArray words = joResult.getJSONArray("ws");
             for (int i = 0; i < words.length(); i++) {
-                // 转写结果词，默认使用第一个结果
+                // 转写结果词，默认使用第一个结果 Transcribe the result word. The first result is used by default
                 JSONArray items = words.getJSONObject(i).getJSONArray("cw");
                 JSONObject obj = items.getJSONObject(0);
                 ret.append(obj.getString("w"));
-//				如果需要多候选结果，解析数组其他字段
+//				如果需要多候选结果，解析数组其他字段 If multiple candidate results are needed, parse other fields of the array
 //				for(int j = 0; j < items.length(); j++)
 //				{
 //					JSONObject obj = items.getJSONObject(j);
