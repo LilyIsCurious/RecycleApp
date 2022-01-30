@@ -11,12 +11,14 @@ import com.llw.mvplibrary.network.observer.BaseObserver;
 
 /**
  * 手动文字输入页面访问网络
+ * text input page access network
  */
 public class TextContract {
 
     public static class TextPresenter extends BasePresenter<TextView> {
         /**
          * 搜索物品
+         * search objects
          *
          * @param word 物品名
          */
