@@ -12,12 +12,14 @@ import com.llw.mvplibrary.network.observer.BaseObserver;
 
 /**
  * 主页面访问网络
+ * Main page access network
  */
 public class MainContract {
 
     public static class MainPresenter extends BasePresenter<MainView> {
         /**
          * 垃圾分类新闻
+         * garbage sorting news
          *
          * @param num 数量
          */
