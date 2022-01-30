@@ -17,6 +17,7 @@ import android.app.Fragment;
 
 /**
  * 图像输入页面访问网络
+ * Image input page access network
  */
 public class ImageContract {
 
@@ -24,6 +25,7 @@ public class ImageContract {
 
         /**
          * 获取鉴权Token
+         * Get authentication token
          */
         @SuppressLint("CheckResult")
         public void getToken() {
@@ -49,6 +51,7 @@ public class ImageContract {
 
         /**
          * 获取图像识别结果
+         * Get result of image recognition
          *
          * @param token 鉴权Token
          * @param image 图片base64
@@ -78,6 +81,7 @@ public class ImageContract {
 
         /**
          * 搜索物品
+         * search object
          *
          * @param word 物品名
          */
