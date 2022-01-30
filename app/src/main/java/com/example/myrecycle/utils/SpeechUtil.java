@@ -35,6 +35,7 @@ import java.util.Vector;
 
 /**
  * 语音工具类
+ * Voice tools
  */
 public class SpeechUtil {
 
@@ -109,11 +110,13 @@ public class SpeechUtil {
         mContext = context;
 
         /***************  语音合成 *****************/
-        // 初始化合成对象
+        // speech synthesis
+        // 初始化合成对象Initialize composite object
         mTts = SpeechSynthesizer.createSynthesizer(mContext, mTtsInitListener);
 
 
         /***************  语音听写 *****************/
+        // speech dictation
         // 使用SpeechRecognizer对象，可根据回调消息自定义界面；
         mIat = SpeechRecognizer.createRecognizer(mContext, mInitListener);
         // 使用UI听写功能，请根据sdk文件目录下的notice.txt,放置布局文件和图片资源
@@ -123,7 +126,8 @@ public class SpeechUtil {
     }
 
     /**
-     * 合成回调监听。
+     * 合成回调监听
+     * Synthetic callback listening
      */
     private static SynthesizerListener mTtsListener = new SynthesizerListener() {
         //开始播放
@@ -224,29 +228,29 @@ public class SpeechUtil {
      * @return
      */
     private static void setParam() {
-        // 清空参数
+        // 清空参数 Clear parameters
         mTts.setParameter(SpeechConstant.PARAMS, null);
-        // 根据合成引擎设置相应参数
+        // 根据合成引擎设置相应参数 Set the corresponding parameters according to the synthesis engine
         if (mEngineType.equals(SpeechConstant.TYPE_CLOUD)) {
             mTts.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD);
-            //支持实时音频返回，仅在synthesizeToUri条件下支持
+            //支持实时音频返回，仅在synthesizeToUri条件下支持 Support real-time audio return, which is only supported under the condition of synthesizeToUri
             mTts.setParameter(SpeechConstant.TTS_DATA_NOTIFY, "1");
 
-            // 设置在线合成发音人
+            // 设置在线合成发音人 Set up online synthetic speaker
             mTts.setParameter(SpeechConstant.VOICE_NAME, voicer);
-            //设置合成语速
+            //设置合成语速 Set synthetic speed
             mTts.setParameter(SpeechConstant.SPEED, speedValue);
-            //设置合成音调
+            //设置合成音调 Set synthetic tone
             mTts.setParameter(SpeechConstant.PITCH, pitchValue);
-            //设置合成音量
+            //设置合成音量 Set synthetic volume
             mTts.setParameter(SpeechConstant.VOLUME, volumeValue);
         } else {
             mTts.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_LOCAL);
             mTts.setParameter(SpeechConstant.VOICE_NAME, "");
         }
-        // 设置播放合成音频打断音乐播放，默认为true
+        // 设置播放合成音频打断音乐播放，默认为true Set to play synthetic audio to interrupt music playback. The default value is true
         mTts.setParameter(SpeechConstant.KEY_REQUEST_FOCUS, "false");
-        // 设置音频保存路径，保存音频格式支持pcm、wav
+        // 设置音频保存路径，保存音频格式支持pcm、wav Set the audio saving path, save the audio format, and support PCM and wav
         mTts.setParameter(SpeechConstant.AUDIO_FORMAT, "pcm");
         mTts.setParameter(SpeechConstant.TTS_AUDIO_PATH, mContext.getExternalFilesDir(null) + "/msc/tts.pcm");
     }
@@ -265,7 +269,7 @@ public class SpeechUtil {
         }
         //设置参数
         setParam();
-        //开始合成播放
+        //开始合成播放 Start compositing playback
         int code = mTts.startSpeaking(text, mTtsListener);
         if (code != ErrorCode.SUCCESS) {
             showTip("语音合成失败,错误码: " + code);
@@ -284,20 +288,20 @@ public class SpeechUtil {
 
 
     /**
-     * 听写UI监听器
+     * 听写UI监听器 Dictation UI listener
      */
     private static RecognizerDialogListener mRecognizerDialogListener = new RecognizerDialogListener() {
         /**
-         * 识别结果
+         * 识别结果 Recognition results
          */
         @Override
         public void onResult(RecognizerResult results, boolean isLast) {
 
-            parsingResult(results);//结果数据解析
+            parsingResult(results);//结果数据解析 parse result
         }
 
         /**
-         * 识别回调错误
+         * 识别回调错误 Recognition results error
          */
         @Override
         public void onError(SpeechError error) {
@@ -312,11 +316,11 @@ public class SpeechUtil {
      * @param results
      */
     private static void parsingResult(RecognizerResult results) {
-        //获取解析结果
+        //获取解析结果 Get parsing results
         String text = JsonParser.parseIatResult(results.getResultString());
 
         String sn = null;
-        // 读取json结果中的sn字段
+        // 读取json结果中的sn字段 Read Sn field in JSON result
         try {
             JSONObject resultJson = new JSONObject(results.getResultString());
             sn = resultJson.optString("sn");
@@ -331,8 +335,8 @@ public class SpeechUtil {
             resultBuffer.append(mIatResults.get(key));
         }
 
-        dictationResults = resultBuffer.toString();//听写结果显示
-        //回调
+        dictationResults = resultBuffer.toString();//听写结果显示 Dictation result display
+        //回调 Callback
         mSpeechCallback.dictationResults(dictationResults);
 
         Log.d(TAG,dictationResults);
@@ -369,15 +373,19 @@ public class SpeechUtil {
         //mIat.setParameter("view_tips_plain","false");
 
         // 设置语音前端点:静音超时时间，即用户多长时间不说话则当做超时处理
+        //Set the voice front endpoint: Mute timeout, that is, how long the user does not speak will be treated as timeout
         mIat.setParameter(SpeechConstant.VAD_BOS, mSharedPreferences.getString("iat_vadbos_preference", "4000"));
 
         // 设置语音后端点:后端点静音检测时间，即用户停止说话多长时间内即认为不再输入， 自动停止录音
+        //Set the end point after voice: the mute detection time of the back-end point, that is, the user will not input any more within how long he stops talking, and the recording will be stopped automatically
         mIat.setParameter(SpeechConstant.VAD_EOS, mSharedPreferences.getString("iat_vadeos_preference", "1000"));
 
         // 设置标点符号,设置为"0"返回结果无标点,设置为"1"返回结果有标点
+        //Set the punctuation mark, set it to "0" to return the result without punctuation, and set it to "1" to return the result with punctuation
         mIat.setParameter(SpeechConstant.ASR_PTT, mSharedPreferences.getString("iat_punc_preference", "1"));
 
         // 设置音频保存路径，保存音频格式支持pcm、wav，设置路径为sd卡请注意WRITE_EXTERNAL_STORAGE权限
+        //set audio saving path
         mIat.setParameter(SpeechConstant.AUDIO_FORMAT, "wav");
         mIat.setParameter(SpeechConstant.ASR_AUDIO_PATH, Environment.getExternalStorageDirectory() + "/msc/iat.wav");
     }
