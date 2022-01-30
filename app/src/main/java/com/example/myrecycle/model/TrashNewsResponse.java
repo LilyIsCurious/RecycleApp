@@ -4,6 +4,7 @@ import java.util.List;
 
 /**
  * 垃圾分类新闻返回实体
+ * Garbage classification news return entity
  */
 public class TrashNewsResponse {
 
