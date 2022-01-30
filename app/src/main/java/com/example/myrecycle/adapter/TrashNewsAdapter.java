@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * 垃圾分类新闻列表适配器
+ * Garbage classification news list adapter
  */
 public class TrashNewsAdapter extends BaseQuickAdapter<TrashNewsResponse.NewslistBean, BaseViewHolder> {
 
