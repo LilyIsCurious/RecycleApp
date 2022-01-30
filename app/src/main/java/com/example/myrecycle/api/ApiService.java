@@ -11,20 +11,21 @@ import retrofit2.http.Query;
 
 /**
  * API接口
+ * API Interface
  */
 public interface ApiService {
 
     /**
-     * 垃圾分类
-     * @param word 物品名
+     * 垃圾分类 garbage function
+     * @param word 物品名 object name
      * @return TrashResponse 结果实体
      */
     @GET("/txapi/lajifenlei/index?key=" + KEY)
     Observable<TrashResponse> searchGoods(@Query("word") String word);
 
     /**
-     * 垃圾分类新闻
-     * @param num 数量
+     * 垃圾分类新闻 garbage sorting news
+     * @param num 数量 quantity
      * @return TrashNewsResponse 结果实体
      */
     @GET("/lajifenleinews/index?key=" + KEY)
