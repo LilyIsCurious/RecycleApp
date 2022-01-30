@@ -9,6 +9,7 @@ import com.example.myrecycle.R;
 
 /**
  * 识别结果列表适配器
+ * Identify result list adapter
  */
 public class DiscernResultAdapter extends BaseQuickAdapter<GetDiscernResultResponse.ResultBean, BaseViewHolder> {
     public DiscernResultAdapter(int layoutResId, @Nullable List<GetDiscernResultResponse.ResultBean> data) {
