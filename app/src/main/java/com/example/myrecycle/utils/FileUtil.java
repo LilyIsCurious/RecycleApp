@@ -11,11 +11,13 @@ import java.io.IOException;
 
 /**
  * 文件读取工具类
+ * File reading tool class
  */
 public class FileUtil {
 
     /**
      * 读取文件内容，作为字符串返回
+     * Read the contents of the file and return it as a string
      */
     @NonNull
     public static String readFileAsString(String filePath) throws IOException {
@@ -29,11 +31,11 @@ public class FileUtil {
         }
 
         StringBuilder sb = new StringBuilder((int) (file.length()));
-        // 创建字节输入流
+        // 创建字节输入流 Create byte input stream
         FileInputStream fis = new FileInputStream(filePath);
-        // 创建一个长度为10240的Buffer
+        // 创建一个长度为10240的Buffer Create a buffer with a length of 10240
         byte[] bbuf = new byte[10240];
-        // 用于保存实际读取的字节数
+        // 用于保存实际读取的字节数 The number of bytes used to save the actual read
         int hasRead = 0;
         while ( (hasRead = fis.read(bbuf)) > 0 ) {
             sb.append(new String(bbuf, 0, hasRead));
@@ -43,7 +45,7 @@ public class FileUtil {
     }
 
     /**
-     * 根据文件路径读取byte[] 数组
+     * 根据文件路径读取byte[] 数组 Read byte [] array according to file path
      */
     public static byte[] readFileByBytes(String filePath) throws IOException {
         File file = new File(filePath);
