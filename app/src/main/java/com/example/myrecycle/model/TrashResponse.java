@@ -4,6 +4,7 @@ import java.util.List;
 
 /**
  * 垃圾分类返回数据
+ * Garbage classification return data
  */
 public class TrashResponse {
 
