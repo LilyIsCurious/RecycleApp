@@ -21,13 +21,16 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.gson.Gson;
 import com.llw.mvplibrary.mvp.MvpActivity;
+import com.youth.banner.adapter.BannerImageAdapter;
+import com.youth.banner.holder.BannerImageHolder;
+import com.youth.banner.indicator.CircleIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity<Banner> extends MvpActivity<MainContract.MainPresenter> implements MainContract.MainView {
 
-    //轮播
+    //轮播 Rotation
     private Banner banner;
     private String TAG;
     private RecyclerView rvNews;
@@ -45,7 +48,7 @@ public class MainActivity<Banner> extends MvpActivity<MainContract.MainPresenter
         appBarLayout = findViewById(R.id.appbar_layout);
         rvNews = findViewById(R.id.rv_news);
 
-        //伸缩偏移量监听
+        //伸缩偏移量监听 Telescopic offset monitoring
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = true;
             int scrollRange = -1;
@@ -55,19 +58,19 @@ public class MainActivity<Banner> extends MvpActivity<MainContract.MainPresenter
                 if (scrollRange == -1) {
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
-                if (scrollRange + verticalOffset == 0) {//收缩时
+                if (scrollRange + verticalOffset == 0) {//收缩时 During contraction
                     collapsingToolbarLayout.setTitle("垃圾分类");
                     isShow = true;
-                } else if (isShow) {//展开时
+                } else if (isShow) {//展开时 When expanding
                     collapsingToolbarLayout.setTitle("");
                     isShow = false;
                 }
             }
         });
-        //设置列表
+        //设置列表 set list
         mAdapter = new TrashNewsAdapter(R.layout.item_trash_new_rv, mList);
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            //跳转到新闻详情页面
+            //跳转到新闻详情页面 Jump to the news details page
             Intent intent = new Intent(context, NewsDetailsActivity.class);
             intent.putExtra("url", mList.get(position).getUrl());
             startActivity(intent);
@@ -75,7 +78,7 @@ public class MainActivity<Banner> extends MvpActivity<MainContract.MainPresenter
         });
         rvNews.setLayoutManager(new LinearLayoutManager(context));
         rvNews.setAdapter(mAdapter);
-        //请求垃圾分类新闻数据
+        //请求垃圾分类新闻数据 Request garbage classification news data
             TrashNewsResponse response = new Gson().fromJson(Constant.LOCAL_NEWS_DATA, TrashNewsResponse.class);
             mList.clear();
             mList.addAll(response.getNewslist());
@@ -140,9 +143,9 @@ public class MainActivity<Banner> extends MvpActivity<MainContract.MainPresenter
         if (response.getCode() == Constant.SUCCESS_CODE) {
             List<TrashNewsResponse.NewslistBean> list = response.getNewslist();
             if (list.size() > 0) {
-                //数据显示
-                showBanner(list);//轮播显示
-                showList();//新闻列表显示
+                //数据显示 data display
+                showBanner(list);//轮播显示 Rotation display
+                showList();//新闻列表显示 news list display
             } else {
                 showMsg("垃圾分类新闻为空");
             }
@@ -160,7 +163,7 @@ public class MainActivity<Banner> extends MvpActivity<MainContract.MainPresenter
                 banner.setAdapter(new BannerImageAdapter<TrashNewsResponse.NewslistBean>(list) {
                     @Override
                     public void onBindView(BannerImageHolder holder, TrashNewsResponse.NewslistBean data, int position, int size) {
-                        //显示轮播图片
+                        //显示轮播图片 display rotating images
                         Glide.with(holder.itemView)
                                 .load(data.getPicUrl())
                                 .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
